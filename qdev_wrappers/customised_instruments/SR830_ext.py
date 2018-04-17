@@ -44,14 +44,19 @@ class SR830_ext(SR830):
         - A conductance buffer
     """
 
-    def __init__(self, name, address, config, **kwargs):
+    def __init__(self, name, address, config=None,
+                 iv_gain=None, ac_factor=None, **kwargs):
         super().__init__(name, address, **kwargs)
 
-        # using the vocabulary of the config file
-        self.ivgain = float(config.get('Gain Settings',
-                                       'iv gain'))
-        self.__acf = float(config.get('Gain Settings',
-                                      'ac factor'))
+        if config not is None:
+            self.ivgain = float(config.get('Gain Settings',
+                                           'iv gain'))
+            self.__acf = float(config.get('Gain Settings',
+                                          'ac factor'))
+        if iv_gain not is None:
+           self.iv_gain = iv_gain
+        if ac_factor not is None:
+           self.ac_factor = ac_factor
 
         self.add_parameter('amplitude_true',
                            label='ac bias',
